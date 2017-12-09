@@ -72,6 +72,11 @@ if __name__ == '__main__':
         default='./CNN/final_model/final-model',
         type=str,
         help='Directory for storing input data')
+    parser.add_argument(
+        '--log_dir',
+        default='./',
+        type=str,
+        help='Summaries log directory')
     FLAGS, unparsed = parser.parse_known_args()
     print(FLAGS)
     main()
