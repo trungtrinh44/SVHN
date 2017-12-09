@@ -5,6 +5,7 @@ from HOG_ANN.hog import hog_images
 from sklearn.metrics import classification_report, confusion_matrix
 import pandas as pd
 import argparse
+
 FLAGS = None
 
 

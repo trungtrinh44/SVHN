@@ -24,7 +24,7 @@ def prepare_log_dir():
 def train_model(Model, x_train, y_train, x_val, y_val, x_test, y_test, sess):
     global_step = tf.Variable(0, trainable=False)
     model = Model(num_classes=[10], input_shape=[
-                  32, 32, 3], l2_reg_lambda=1e-4)
+        32, 32, 3], l2_reg_lambda=1e-4)
     optimizer = tf.train.AdamOptimizer(1e-3)
     train_op = optimizer.minimize(model.loss, global_step)
     timestamp = str(int(time.time()))
@@ -156,8 +156,6 @@ if __name__ == '__main__':
                         help='Number of steps to run trainer.')
     parser.add_argument('--batch_size', type=int, default=128,
                         help='Batch size.')
-    # parser.add_argument('--evaluate_every', type=int, default=1000,
-    #                     help='Evaluate frequency')
     parser.add_argument('--checkpoint_every', type=int, default=500,
                         help='Checkpoint frequency')
     parser.add_argument('--num_checkpoints', type=int, default=20,
