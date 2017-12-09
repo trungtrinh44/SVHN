@@ -5,8 +5,8 @@ import time
 import datetime
 import tensorflow as tf
 import data_helpers
-from CNN import model
-
+from HOG_ANN import model
+from HOG_ANN.hog import hog_images
 from sklearn.model_selection import train_test_split
 import numpy as np
 
@@ -24,7 +24,7 @@ def prepare_log_dir():
 def train_model(Model, x_train, y_train, x_val, y_val, x_test, y_test, sess):
     global_step = tf.Variable(0, trainable=False)
     model = Model(num_classes=[10], input_shape=[
-                  32, 32, 3], l2_reg_lambda=1e-4)
+                  x_train.shape[-1]], l2_reg_lambda=1e-4)
     optimizer = tf.train.AdamOptimizer(1e-3)
     train_op = optimizer.minimize(model.loss, global_step)
     timestamp = str(int(time.time()))
@@ -60,10 +60,7 @@ def train_model(Model, x_train, y_train, x_val, y_val, x_test, y_test, sess):
         feed_dict = {
             model.input_x: x_batch,
             model.input_y: y_batch,
-            model.keep_prob_1: 0.5,
-            model.keep_prob_2: 0.5,
-            model.keep_prob_3: 0.5,
-            model.keep_prob_4: 0.5,
+            model.keep_prob_1: 0.5
         }
         _, step, summaries, loss, accuracy = sess.run(
             [train_op, global_step, train_summary_op, model.loss, model.accuracy],
@@ -80,10 +77,7 @@ def train_model(Model, x_train, y_train, x_val, y_val, x_test, y_test, sess):
         feed_dict = {
             model.input_x: x_batch,
             model.input_y: y_batch,
-            model.keep_prob_1: 1.0,
-            model.keep_prob_2: 1.0,
-            model.keep_prob_3: 1.0,
-            model.keep_prob_4: 1.0,
+            model.keep_prob_1: 1.0
         }
         step, summaries, loss, accuracy = sess.run(
             [global_step, dev_summary_op, model.loss, model.accuracy],
@@ -120,9 +114,6 @@ def train_model(Model, x_train, y_train, x_val, y_val, x_test, y_test, sess):
     for x_test_batch in test_batches:
         test_feed_dict = {
             model.keep_prob_1: 1.0,
-            model.keep_prob_2: 1.0,
-            model.keep_prob_3: 1.0,
-            model.keep_prob_4: 1.0,
             model.input_x: x_test_batch
         }
         batch_predictions = sess.run(model.predictions, test_feed_dict)
@@ -176,9 +167,11 @@ if __name__ == '__main__':
     print(FLAGS)
     x_val, y_val = None, None
     x_train, y_train, x_test, y_test = data_helpers.load_svhn(FLAGS.data_dir)
+    x_train = hog_images(x_train)
+    x_test = hog_images(x_test)
     if 0 < FLAGS.validation_split < 1:
         x_train, x_val, y_train, y_val = train_test_split(x_train, y_train,
                                                           test_size=FLAGS.validation_split, random_state=0)
     with tf.Session() as sess:
-        train_model(model.ConvNet, x_train, y_train,
+        train_model(model.ANN, x_train, y_train,
                     x_val, y_val, x_test, y_test, sess)

@@ -1,6 +1,7 @@
 from __future__ import print_function
 import tensorflow as tf
 
+
 def weight_variable(shape, name):
     return tf.get_variable(name, shape, dtype=tf.float32, initializer=tf.contrib.layers.xavier_initializer())
 
@@ -19,17 +20,15 @@ class ANN(object):
         l2_loss = tf.constant(0.0)
 
         with tf.name_scope('fc1'):
-            W_fc1 = weight_variable([1024, 256], 'W_fc1')
+            W_fc1 = weight_variable(input_shape + [256], 'W_fc1')
             b_fc1 = bias_variable([256])
-
-            h_pool3_flat = tf.reshape(h_pool3_drop, [-1, 1024])
-            h_fc1 = tf.nn.relu(tf.matmul(h_pool3_flat, W_fc1) + b_fc1)
+            h_fc1 = tf.nn.relu(tf.matmul(self.input_x, W_fc1) + b_fc1)
 
             l2_loss += tf.nn.l2_loss(W_fc1)
             l2_loss += tf.nn.l2_loss(b_fc1)
-        with tf.name_scope('dropout4'):
-            self.keep_prob_4 = tf.placeholder(tf.float32, name='keep_prob_4')
-            h_fc1_drop = tf.nn.dropout(h_fc1, self.keep_prob_4)
+        with tf.name_scope('dropout1'):
+            self.keep_prob_1 = tf.placeholder(tf.float32, name='keep_prob_1')
+            h_fc1_drop = tf.nn.dropout(h_fc1, self.keep_prob_1)
         with tf.name_scope('fc2'):
             W_fc2 = weight_variable([256, ] + num_classes, 'W_fc2')
             b_fc2 = bias_variable(num_classes)
