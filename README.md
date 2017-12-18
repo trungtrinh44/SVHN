@@ -9,4 +9,4 @@ train this model on training set and eval_hog_ann.py is used to evaluate this mo
 - To train the HOG_ANN model run ```python train_hog_ann.py '--data_dir [path to data] --log_dir [path for log files]'```
 - To evaluate the CNN model run ```python eval_cnn.py --model_dir [path to trained model] --data_dir [path to data]```
 - To evaluate the HOG_ANN model run ```python eval_hog_ann.py --model_dir [path to trained model] --data_dir [path to data]```
-- To train and evalute the HOG_SVM model run ```python train_evel_hog_svm.py --data_dir [path_to_data]```
+- To train and evalute the HOG_SVM model run ```python train_eval_hog_svm.py --data_dir [path_to_data]```
