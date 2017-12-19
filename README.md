@@ -1,5 +1,5 @@
 # SVHN
-- This repository contains 2 models for Street View House Number classification.
+- This repository contains 3 models for Street View House Number classification.
 - The first model is Histogram of Oriented Gradient combined with Neural Network 
 which is contained in the folder HOG_ANN. The script train_hog_ann.py is used to 
 train this model on training set and eval_hog_ann.py is used to evaluate this model
