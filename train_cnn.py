@@ -167,10 +167,12 @@ if __name__ == '__main__':
     parser.add_argument(
         '--data_dir',
         type=str,
+        default='./data',
         help='Directory for storing input data')
     parser.add_argument(
         '--log_dir',
         type=str,
+        default='./',
         help='Summaries log directory')
     FLAGS, unparsed = parser.parse_known_args()
     print(FLAGS)
@@ -180,5 +182,4 @@ if __name__ == '__main__':
         x_train, x_val, y_train, y_val = train_test_split(x_train, y_train,
                                                           test_size=FLAGS.validation_split, random_state=0)
     with tf.Session() as sess:
-        train_model(model.ConvNet, x_train, y_train,
-                    x_val, y_val, x_test, y_test, sess)
+        train_model(model.ConvNet, x_train, y_train, x_val, y_val, x_test, y_test, sess)
