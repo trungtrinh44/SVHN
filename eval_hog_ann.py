@@ -1,10 +1,12 @@
-import tensorflow as tf
-import numpy as np
-from data_helpers import load_svhn, batch_iter
-from HOG_ANN.hog import hog_images
-from sklearn.metrics import classification_report, confusion_matrix
-import pandas as pd
 import argparse
+
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from sklearn.metrics import classification_report, confusion_matrix
+
+from HOG_ANN.hog import hog_images
+from data_helpers import load_svhn, batch_iter
 
 FLAGS = None
 

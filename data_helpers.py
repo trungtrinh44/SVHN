@@ -31,8 +31,9 @@ def load_svhn(path):
     print(X_test.shape[0], 'test samples')
     return X_train, Y_train, X_test, Y_test
 
+
 def load_shvn_for_svm(path):
-     train_data = scipy.io.loadmat(path + '/train_32x32.mat')
+    train_data = scipy.io.loadmat(path + '/train_32x32.mat')
     test_data = scipy.io.loadmat(path + '/test_32x32.mat')
     x_train, y_train = train_data['X'], train_data['y']
     x_test, y_test = test_data['X'], test_data['y']

@@ -1,13 +1,13 @@
-import numpy as np
-from sklearn.metrics import classification_report
-from sklearn.externals import joblib
-from sklearn.metrics import accuracy_score
-import os
-from sklearn.linear_model import SGDClassifier
-import data_helpers
 import argparse
-from skimage.feature import hog
+
+import numpy as np
 from skimage import color
+from skimage.feature import hog
+from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+
+import data_helpers
 
 
 def apply_hog(image):
@@ -33,5 +33,5 @@ if __name__ == '__main__':
     x_hog_test = hog_images(x_test)
     sgdc = SGDClassifier(max_iter=50)
     sgdc.fit(x_hog_train, y_train)
-    print(classification_report(y_pred=sgdc.predict(x_hog_test),y_true=y_test))
+    print(classification_report(y_pred=sgdc.predict(x_hog_test), y_true=y_test))
     print(accuracy_score(sgdc.predict(x_hog_test), y_test))

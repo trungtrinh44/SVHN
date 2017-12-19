@@ -1,14 +1,17 @@
 from __future__ import print_function
+
 import argparse
+import datetime
 import os
 import time
-import datetime
+
+import numpy as np
 import tensorflow as tf
+from sklearn.model_selection import train_test_split
+
 import data_helpers
 from HOG_ANN import model
 from HOG_ANN.hog import hog_images
-from sklearn.model_selection import train_test_split
-import numpy as np
 
 FLAGS = None
 
@@ -24,7 +27,7 @@ def prepare_log_dir():
 def train_model(Model, x_train, y_train, x_val, y_val, x_test, y_test, sess):
     global_step = tf.Variable(0, trainable=False)
     model = Model(num_classes=[10], input_shape=[
-                  x_train.shape[-1]], l2_reg_lambda=1e-4)
+        x_train.shape[-1]], l2_reg_lambda=1e-4)
     optimizer = tf.train.AdamOptimizer(1e-3)
     train_op = optimizer.minimize(model.loss, global_step)
     timestamp = str(int(time.time()))

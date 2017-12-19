@@ -1,6 +1,6 @@
-from skimage.feature import hog
-from skimage import color
 import numpy as np
+from skimage import color
+from skimage.feature import hog
 
 
 def apply_hog(image):

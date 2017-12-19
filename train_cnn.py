@@ -1,14 +1,16 @@
 from __future__ import print_function
+
 import argparse
+import datetime
 import os
 import time
-import datetime
+
+import numpy as np
 import tensorflow as tf
+from sklearn.model_selection import train_test_split
+
 import data_helpers
 from CNN import model
-
-from sklearn.model_selection import train_test_split
-import numpy as np
 
 FLAGS = None
 
