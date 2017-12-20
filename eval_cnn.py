@@ -12,13 +12,17 @@ FLAGS = None
 
 def main():
     x_train, y_train, x_test, y_test = load_svhn(FLAGS.data_dir)
-    graph = tf.Graph()
-    with graph.as_default():
-        sess = tf.Session()
-        with sess.as_default():
-            saver = tf.train.import_meta_graph(
-                '{}.meta'.format(FLAGS.model_dir))
-            saver.restore(sess, FLAGS.model_dir)
+    with tf.gfile.GFile(FLAGS.model_dir, "rb") as f:
+        restored_graph_def = tf.GraphDef()
+        restored_graph_def.ParseFromString(f.read())
+    with tf.Graph().as_default() as graph:
+        tf.import_graph_def(
+            restored_graph_def,
+            input_map=None,
+            return_elements=None,
+            name=""
+        )
+        with tf.Session(graph=graph) as sess:
             keep_prob_1 = graph.get_operation_by_name(
                 'dropout1/keep_prob_1').outputs[0]
             keep_prob_2 = graph.get_operation_by_name(
@@ -72,7 +76,7 @@ if __name__ == '__main__':
         help='Directory for storing input data')
     parser.add_argument(
         '--model_dir',
-        default='./CNN/final_model/final-model',
+        default='./CNN/final_model',
         type=str,
         help='Directory for storing input data')
     parser.add_argument(
