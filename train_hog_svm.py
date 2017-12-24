@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 from skimage import color
 from skimage.feature import hog
+from sklearn.externals import joblib
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
@@ -35,5 +36,6 @@ if __name__ == '__main__':
     x_hog_test = hog_images(x_test)
     sgdc = SGDClassifier(max_iter=50, loss='hinge')
     sgdc.fit(x_hog_train, y_train)
+    joblib.dump(sgdc, 'HOG_SVM/final_model/svm.pkl')
     print(classification_report(y_pred=sgdc.predict(x_hog_test), y_true=y_test))
     print(accuracy_score(sgdc.predict(x_hog_test), y_test))
